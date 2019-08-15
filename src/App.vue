@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LandingPage></LandingPage>
+    <LandingPage :baseUrl="baseUrl"></LandingPage>
   </div>
 </template>
 
@@ -8,6 +8,12 @@
 import LandingPage from "./components/LandingPage";
 
 export default {
+  data() {
+    return {
+      isLogin: false,
+      baseUrl: `http://localhost:3000`
+    }
+  },
   components: {
     LandingPage
   }
