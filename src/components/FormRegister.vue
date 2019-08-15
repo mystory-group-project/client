@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <div id="box-login">
-      <header>
-        <h1>LOGIN</h1>
-      </header>
-      <input type="email" v-model="loginEmail" class="form-control" placeholder="Email">
-      <input type="password" v-model="loginPassword" class="form-control" placeholder="Password">
-      <button @click="login" class="btn btn-primary btn-lg btn-block mt-5">Login</button>
-    </div>
+  <div id="box-register">
+    <header>
+      <h1>REGISTER</h1>
+    </header>
+    <input type="text" v-model="registerFullName" class="form-control" placeholder="Full Name">
+    <input type="email" v-model="registerEmail" class="form-control" placeholder="Email">
+    <input type="password" v-model="registerPassword" class="form-control" placeholder="Password">
+    <button @click="register" class="btn btn-primary btn-lg btn-block mt-5">Register</button>
   </div>
 </template>
 
@@ -18,24 +17,26 @@ export default {
   props: [ "baseUrl" ],
   data() {
     return {
-      loginEmail: "",
-      loginPassword: "",
+      registerFullName: "",
+      registerEmail: "",
+      registerPassword: "",
     }
   },
   created() {
+
   },
   methods: {
-    login() {
+    register() {
       axios({
         method: "POST",
-        url: `${this.baseUrl}/user/login`,
+        url: `${this.baseUrl}/user/register`,
         data: {
-          email: this.loginEmail,
-          password: this.loginPassword
+          fullname: this.registerFullName,
+          email: this.registerEmail,
+          password: this.registerPassword
         }
       })
       .then(({ data }) => {
-        this.$emit('login');
         // DO STUFF HERE ...
         console.log(data);
       })
@@ -44,19 +45,20 @@ export default {
         console.log(err);
       })
     }
+  },
+  components: {
+
   }
 }
 </script>
 
 <style scoped>
-  #box-login {
-    position: absolute;
-    top: -100%;
-    width: 100%;
-    border-radius: 0 0 10px 10px;
+  #box-register {
+    position: relative;
     padding: 20px 50px;
     background-color: rgba(240, 240, 240, 0.3);
-    opacity: 0;
+    top: 0;
+    border-radius: 0 0 10px 10px;
     transition: 1s;
     display: flex;
     flex-direction: column;
@@ -65,7 +67,7 @@ export default {
 
   h1 {
     font-size: 37px;
-    letter-spacing: 5px;
+    letter-spacing: 4px;
     color: #474747;
     margin: 20px 0;
     color: white;
@@ -83,5 +85,8 @@ export default {
 
   input:focus {
     color: #474747;
+    /* border: none; */
+    /* box-shadow: none; */
   }
+
 </style>

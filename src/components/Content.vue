@@ -1,10 +1,12 @@
 <template>
   <div class="d-flex container-fluid content">
+      <!-- ============ story list -->
     <StoryList
-      :class="{'col-7': isFormCreate, col: !isFormCreate}"
+      :class="{'col-7': isFormCreate, 'col': !isFormCreate}"
       @to-add-story="toAddStory"
       :isFormCreateStory="isFormCreate"
     ></StoryList>
+    <!-- ============= form create story -->
     <FormCreateStory class="col-5" v-if="isFormCreate" @cancel-add="cancelAdd"></FormCreateStory>
   </div>
 </template>
