@@ -34,9 +34,10 @@ export default {
           password: this.loginPassword
         }
       })
-      .then(res => {
+      .then(({ data }) => {
+        this.$emit('login');
         // DO STUFF HERE ...
-        console.log(res);
+        console.log(data);
       })
       .catch(err => {
         // DO STUFF HERE ...

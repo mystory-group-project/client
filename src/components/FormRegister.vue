@@ -36,9 +36,9 @@ export default {
           password: this.registerPassword
         }
       })
-      .then(res => {
+      .then(({ data }) => {
         // DO STUFF HERE ...
-        console.log(res);
+        console.log(data);
       })
       .catch(err => {
         // DO STUFF HERE ...

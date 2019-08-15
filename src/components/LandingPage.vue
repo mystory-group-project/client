@@ -11,7 +11,7 @@
       </div>
       <div id="box-body">
         <FormRegister :baseUrl="baseUrl"></FormRegister>
-        <FormLogin :baseUrl="baseUrl"></FormLogin>
+        <FormLogin @login="$emit('login')" :baseUrl="baseUrl"></FormLogin>
       </div>
     </div>
   </div>

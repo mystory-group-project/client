@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LandingPage :baseUrl="baseUrl"></LandingPage>
+    <LandingPage @login="login" :baseUrl="baseUrl"></LandingPage>
   </div>
 </template>
 
@@ -16,6 +16,11 @@ export default {
   },
   components: {
     LandingPage
+  },
+  methods: {
+    login() {
+      console.log('oke');
+    }
   }
 };
 </script>
