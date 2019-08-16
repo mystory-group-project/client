@@ -1,24 +1,50 @@
 <template>
   <div class="story-card d-flex">
-    <div class="featured-image col" :style="{ backgroundImage: 'url(' + image + ')' }"></div>
+    <div class="featured-image col" :style="{ backgroundImage: 'url(' + story.image + ')' }"></div>
     <div class="main-content-card col-9">
-      <div class="title">
-        <h3>This is story title</h3>
+      <div class="title d-flex justify-content-between">
+        <h3>{{story.title}}</h3>
+        <a
+          href
+          class="delete-story-btn"
+          v-if="isLoggedUser"
+          @click.prevent="deleteStory(story._id)"
+        >
+          <i class="fas fa-minus"></i>
+        </a>
       </div>
       <div class="description">
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit dolores placeat quam quae! Repellendus, perferendis magnam modi excepturi nobis blanditiis!</p>
+        <p>{{story.description}}</p>
       </div>
       <footer class="d-flex justify-content-between">
         <div class="card-info">
-          <h6>author: Samsudin Tralala</h6>
+          <h6>author: {{story.author.username}}</h6>
           <small>1 days ago</small>
         </div>
-        <div class="link align-self-end">
-          <a href class="share-twitter btn btn-primary">
-            <font-awesome-icon icon="share-alt-square" class="mr-2 add-button-symbol"></font-awesome-icon>
-            Twitter
+        <div class="link align-self-end d-flex align-items-center">
+          <!-- twitter -->
+          <!-- <a href class="share-twitter btn btn-primary twitter-share" data-js="twitter-share">
+            <font-awesome-icon icon="share-alt-square" class="mr-2 add-button-symbol"></font-awesome-icon>Twitter
+          </a>-->
+          <!-- facebook -->
+          <a href="#" class="mr-3 facebook-btn">
+            <social-sharing
+              :url="story.pdf"
+              title="story.title"
+              hashtags="mystory"
+              description="story.description"
+              :quote="message"
+              inline-template
+              :media="story.image"
+            >
+              <div>
+                <network network="facebook">
+                  <i class="fab fa-facebook"></i>
+                </network>
+              </div>
+            </social-sharing>
           </a>
-          <a class="btn btn-primary download" href>Download Story</a>
+          <a class="btn btn-primary download" :href="story.pdf">Download Story</a>
         </div>
       </footer>
     </div>
@@ -26,12 +52,64 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  props: ["story", "baseUrl"],
   data() {
     return {
-      image:
-        "https://s-ec.bstatic.com/images/hotel/max1024x768/102/102757357.jpg"
+      url: this.story.pdf,
+      message: `I downloaded a story: "${this.story.title}" via MyStory, ${this.story.pdf}`,
+      isLoggedUser: false
     };
+  },
+  methods: {
+    deleteStory(id) {
+      this.$swal({
+        title: "Delete this story?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios({
+            method: "delete",
+            url: `${this.baseUrl}/story/${id}`,
+            headers: {
+              token: localStorage.getItem("token")
+            }
+          })
+            .then(({ data }) => {
+              this.$swal("Deleted!", "Your story has been deleted.", "success");
+              console.log("Successfuly deleted story");
+              this.$emit("delete-story");
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
+      });
+    },
+    shareTwitter() {
+      window.open(
+        "https://twitter.com/share?url=" + this.pdfLink,
+        "twitter-popup",
+        "height=350,width=600"
+      );
+      if (twitterWindow.focus) {
+        twitterWindow.focus();
+      }
+      return false;
+    }
+  },
+  created() {
+    this.pdfLink = this.story.pdf;
+    if (this.story.author.username == localStorage.getItem("username")) {
+      this.isLoggedUser = true;
+    }
   }
 };
 </script>
@@ -88,5 +166,13 @@ h6 {
 .featured-image {
   background-size: cover;
   border-radius: 7px 0 0 7px;
+}
+
+.facebook-btn {
+  font-size: 30px;
+}
+
+.delete-story-btn {
+  color: rgb(163, 70, 70);
 }
 </style>

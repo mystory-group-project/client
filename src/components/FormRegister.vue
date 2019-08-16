@@ -31,7 +31,7 @@ export default {
         method: "POST",
         url: `${this.baseUrl}/user/register`,
         data: {
-          fullname: this.registerFullName,
+          username: this.registerFullName,
           email: this.registerEmail,
           password: this.registerPassword
         }

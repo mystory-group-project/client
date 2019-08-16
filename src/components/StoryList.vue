@@ -8,7 +8,7 @@
             <font-awesome-icon icon="search"></font-awesome-icon>
           </span>
         </b-input-group-prepend>
-        <b-form-input class="LoginInput" size="lg" placeholder="Search ..."></b-form-input>
+        <b-form-input class="LoginInput" size="lg" placeholder="Search ..." v-model="search"></b-form-input>
       </b-input-group>
       <!-- ===== add-story-btn -->
       <a
@@ -18,12 +18,16 @@
         v-if="!isFormCreateStory"
       >
         <font-awesome-icon icon="plus-circle" class="mr-2 add-button-symbol"></font-awesome-icon>
-        <h6>Upload Story</h6>
+        <h6>Share Story</h6>
       </a>
     </div>
-    <Story></Story>
-    <Story></Story>
-    <Story></Story>
+    <Story
+      v-for="story in allStories"
+      :key="story._id"
+      :story="story"
+      :baseUrl="baseUrl"
+      @delete-story="deleteStory"
+    ></Story>
   </div>
 </template>
 
@@ -31,13 +35,30 @@
 import Story from "./Story.vue";
 
 export default {
-  props: ["isFormCreateStory"],
+  props: ["isFormCreateStory", "allStories", "baseUrl"],
   components: {
     Story
+  },
+  data() {
+    return {
+      search: ""
+    };
   },
   methods: {
     toAddStory() {
       this.$emit("to-add-story");
+    },
+    searchStory(keyword) {
+      this.$emit("search-story", this.search);
+    },
+    deleteStory() {
+      this.$emit("delete-story");
+    }
+  },
+  watch: {
+    search(newVal, oldVal) {
+      //   console.log(newVal)
+      this.searchStory(newVal);
     }
   }
 };
