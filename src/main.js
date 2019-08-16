@@ -2,7 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueSweetalert2 from 'vue-sweetalert2';
-import SocialSharing from 'vue-social-sharing'
+import SocialSharing from 'vue-social-sharing';
+
 import {
     library
 } from '@fortawesome/fontawesome-svg-core'

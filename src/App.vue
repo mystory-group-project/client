@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       isLogin: false,
-      baseUrl: `http://localhost:3000`,
+      baseUrl: `http://35.193.37.14`,
       stories: []
     };
   },
@@ -60,9 +60,8 @@ export default {
         });
     },
     createStory(payload) {
-      // this.fetchStories();
-      console.log(payload, "<<<<<<<<<<<<<<<<<<<<<");
-      this.stories.unshift(payload);
+      this.fetchStories();
+      // this.stories.unshift(payload);
     },
     searchStory(payload) {
       axios({

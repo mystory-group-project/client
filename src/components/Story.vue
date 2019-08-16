@@ -19,15 +19,11 @@
       <footer class="d-flex justify-content-between">
         <div class="card-info">
           <h6>author: {{story.author.username}}</h6>
-          <small>1 days ago</small>
+          <small>{{moment(`${formatDate}`).fromNow()}}</small>
         </div>
         <div class="link align-self-end d-flex align-items-center">
-          <!-- twitter -->
-          <!-- <a href class="share-twitter btn btn-primary twitter-share" data-js="twitter-share">
-            <font-awesome-icon icon="share-alt-square" class="mr-2 add-button-symbol"></font-awesome-icon>Twitter
-          </a>-->
           <!-- facebook -->
-          <a href="#" class="mr-3 facebook-btn">
+          <a class="mr-3 facebook-btn">
             <social-sharing
               :url="story.pdf"
               title="story.title"
@@ -53,6 +49,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
   props: ["story", "baseUrl"],
@@ -60,7 +57,8 @@ export default {
     return {
       url: this.story.pdf,
       message: `I downloaded a story: "${this.story.title}" via MyStory, ${this.story.pdf}`,
-      isLoggedUser: false
+      isLoggedUser: false,
+      moment: moment
     };
   },
   methods: {
@@ -103,6 +101,16 @@ export default {
         twitterWindow.focus();
       }
       return false;
+    }
+  },
+  computed: {
+    formatDate() {
+      let dateObject = new Date(this.story.createdAt)
+      // console.log(dateObject)
+      var date = dateObject.getFullYear()+'-'+(dateObject.getMonth()+1)+'-'+dateObject.getDate();
+      var time = dateObject.getHours() + ":" + dateObject.getMinutes() + ":" + dateObject.getSeconds();
+      var dateTime = date+' '+time;
+      return dateTime
     }
   },
   created() {

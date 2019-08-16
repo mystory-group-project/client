@@ -3,7 +3,7 @@
     <header>
       <h1>REGISTER</h1>
     </header>
-    <input type="text" v-model="registerFullName" class="form-control" placeholder="Full Name">
+    <input type="text" v-model="registerFullName" class="form-control" placeholder="Username">
     <input type="email" v-model="registerEmail" class="form-control" placeholder="Email">
     <input type="password" v-model="registerPassword" class="form-control" placeholder="Password">
     <button @click="register" class="btn btn-primary btn-lg btn-block mt-5">Register</button>
@@ -38,10 +38,18 @@ export default {
       })
       .then(({ data }) => {
         // DO STUFF HERE ...
+        this.$swal({
+          type: 'success',
+          title: 'Please login to continue'
+        })
         console.log(data);
       })
       .catch(err => {
         // DO STUFF HERE ...
+        this.$swal({
+          type: 'error',
+          title: err.response.data
+        })
         console.log(err);
       })
     }
